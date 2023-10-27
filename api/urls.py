@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 
 from user_profile.views import (ProfileView,
                                 RegisterView, ChangePasswordView, UploadPhotoView, RequestPasswordResetEmail)
-
+from journal.views import (TodoListCreateView)
 
 app_name = 'api'
 
@@ -18,4 +18,9 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(),
          name='password-reset-confirm'),
+    path('change-password', ChangePasswordView.as_view(), name='change-password'),
+
+    path('todo/list', TodoListCreateView.as_view(), name='todo-list'),
+
+
 ]
