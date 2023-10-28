@@ -13,4 +13,7 @@ class TodoSerializer(serializers.ModelSerializer):
             'date_created': {
                 'read_only': True
             },
+            'user_profile': {
+                'read_only': True
+            }
         }

@@ -15,6 +15,7 @@ class Todo(models.Model):
         (ON_PROCESS, 'On Process'),
         (CANCELLED, 'Cancelled'),
         (ARCHIVED, 'Archived'),
+        (DONE, 'Done'),
     ]
 
     user_profile = models.ForeignKey(

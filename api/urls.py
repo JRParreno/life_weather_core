@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 
 from user_profile.views import (ProfileView,
                                 RegisterView, ChangePasswordView, UploadPhotoView, RequestPasswordResetEmail)
-from journal.views import (TodoListCreateView)
+from journal.views import (TodoListCreateView, TodoRetrieveUpdateDestroyView)
 
 app_name = 'api'
 
@@ -21,6 +21,6 @@ urlpatterns = [
     path('change-password', ChangePasswordView.as_view(), name='change-password'),
 
     path('todo/list', TodoListCreateView.as_view(), name='todo-list'),
-
-
+    path('todo/<pk>', TodoRetrieveUpdateDestroyView.as_view(),
+         name='todo-update-retrieve-destroy'),
 ]
