@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'oauth2_provider',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'life_weather_core.urls'
@@ -79,6 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'life_weather_core.wsgi.application'
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 OAUTH2_PROVIDER = {
