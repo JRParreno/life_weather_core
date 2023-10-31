@@ -131,7 +131,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
                 "address": user_profile.address,
                 "gender": user_profile.gender,
                 "profilePhoto": request.build_absolute_uri(user_profile.profile_photo.url) if user_profile.profile_photo else None,
-
+                "moodEmoji": user_profile.mood_emoji,
             }
 
             return response.Response(data, status=status.HTTP_200_OK)
@@ -144,26 +144,31 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         user = self.request.user
-        user_details = self.request.data.get('user')
-        address = self.request.data.get('address')
-        user_email = UserProfile.objects.filter(
-            user__email=user_details['email']).exclude(user=user).exists()
-
-        if user_email:
-            error = {
-                "error_message": "Email already exists"
-            }
-            return response.Response(error, status=status.HTTP_400_BAD_REQUEST)
-
         user_profile = UserProfile.objects.get(user=user)
 
-        user.email = user_details['email']
-        user.first_name = user_details['first_name']
-        user.last_name = user_details['last_name']
-        user.username = user_details['email']
-        user.save()
+        mood_emoji = self.request.data.get('mood_emoji')
 
-        user_profile.address = address
+        if mood_emoji is not None:
+            user_profile.mood_emoji = mood_emoji
+        else:
+            user_details = self.request.data.get('user')
+            address = self.request.data.get('address')
+            user_email = UserProfile.objects.filter(
+                user__email=user_details['email']).exclude(user=user).exists()
+
+            if user_email:
+                error = {
+                    "error_message": "Email already exists"
+                }
+                return response.Response(error, status=status.HTTP_400_BAD_REQUEST)
+
+            user.email = user_details['email']
+            user.first_name = user_details['first_name']
+            user.last_name = user_details['last_name']
+            user.username = user_details['email']
+            user_profile.address = address
+
+        user.save()
         user_profile.save()
 
         data = {
@@ -174,7 +179,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
             "lastName": user.last_name,
             "email": user.email,
             "address": user_profile.address,
-            "gender": user_profile.gender
+            "gender": user_profile.gender,
+            "moodEmoji": user_profile.mood_emoji
         }
         return response.Response(data, status=status.HTTP_200_OK)
 
