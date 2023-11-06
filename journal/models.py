@@ -42,7 +42,7 @@ class Diary(models.Model):
         return f'{self.title} - {self.date_created.strftime("%m/%d/%Y, %H:%M:%S")}'
 
 
-class DairyLapse(models.Model):
+class DiaryLapse(models.Model):
     diary = models.ForeignKey(
         Diary, related_name='diary_parent', on_delete=models.CASCADE)
     note = models.TextField()
