@@ -76,7 +76,7 @@ class DiaryListCreateView(generics.ListCreateAPIView):
             data = {
                 "pk": diary.pk,
                 "title": diary.title,
-                "lapses": [],
+                "diary_lapses": [],
                 "date_created": diary.date_created,
             }
 

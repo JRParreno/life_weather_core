@@ -32,7 +32,7 @@ class Todo(models.Model):
 
 
 class Diary(models.Model):
-    user_profile = models.OneToOneField(
+    user_profile = models.ForeignKey(
         UserProfile, related_name='user_diary', on_delete=models.CASCADE)
     title = models.CharField(max_length=250,)
     date_created = models.DateTimeField(auto_now_add=True)
