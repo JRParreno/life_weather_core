@@ -21,7 +21,6 @@ class UserProfile(models.Model):
         User, related_name='customer', on_delete=models.CASCADE)
     gender = models.CharField(
         max_length=10, choices=GENDER_CHOICES, default=NA)
-    address = models.CharField(max_length=255)
     profile_photo = models.ImageField(
         upload_to='images/profiles/', blank=True, null=True)
     mood_emoji = models.CharField(max_length=50, blank=True, null=True)

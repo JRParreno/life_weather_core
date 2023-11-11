@@ -65,7 +65,6 @@ class RegisterView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         password = request.data.get('password')
-        address = request.data.get('address')
         confirm_password = request.data.get('confirm_password')
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
@@ -96,7 +95,6 @@ class RegisterView(generics.CreateAPIView):
         user.save()
 
         UserProfile.objects.create(user=user,
-                                   address=address,
                                    gender=gender,
                                    )
 
@@ -128,7 +126,6 @@ class ProfileView(generics.RetrieveUpdateAPIView):
                 "firstName": user.first_name,
                 "lastName": user.last_name,
                 "email": user.email,
-                "address": user_profile.address,
                 "gender": user_profile.gender,
                 "profilePhoto": request.build_absolute_uri(user_profile.profile_photo.url) if user_profile.profile_photo else None,
                 "moodEmoji": user_profile.mood_emoji,
@@ -152,7 +149,6 @@ class ProfileView(generics.RetrieveUpdateAPIView):
             user_profile.mood_emoji = mood_emoji
         else:
             user_details = self.request.data.get('user')
-            address = self.request.data.get('address')
             user_email = UserProfile.objects.filter(
                 user__email=user_details['email']).exclude(user=user).exists()
 
@@ -166,7 +162,6 @@ class ProfileView(generics.RetrieveUpdateAPIView):
             user.first_name = user_details['first_name']
             user.last_name = user_details['last_name']
             user.username = user_details['email']
-            user_profile.address = address
 
         user.save()
         user_profile.save()
@@ -178,7 +173,6 @@ class ProfileView(generics.RetrieveUpdateAPIView):
             "firstName": user.first_name,
             "lastName": user.last_name,
             "email": user.email,
-            "address": user_profile.address,
             "gender": user_profile.gender,
             "moodEmoji": user_profile.mood_emoji
         }

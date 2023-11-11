@@ -32,7 +32,6 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     # set all fields required and model
-    address = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
     gender = serializers.ChoiceField(choices=UserProfile.GENDER_CHOICES)
 
@@ -40,7 +39,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'email', 'first_name', 'last_name',
-            'password', 'confirm_password', 'address',
+            'password', 'confirm_password',
             'gender',
         ]
 
@@ -63,12 +62,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.Serializer):
     user = UserSerializer()
-    address = serializers.CharField()
     profile_photo = serializers.CharField()
 
     class Meta:
         model = UserProfile
-        fields = ('user',  'address',
+        fields = ('user',
                   'profile_photo', 'profile_photo_image_64')
 
         extra_kwargs = {
@@ -119,8 +117,6 @@ class ProfileSerializer(serializers.Serializer):
             filename, data = extract_file(
                 profile_photo_image_64, 'profile_picture')
             instance.profile_picture.save(filename, data, save=True)
-
-        instance.address = validated_data.pop('address')
 
         user = instance.user
         user_data = validated_data.pop('user')
